@@ -11,6 +11,11 @@ inputs:
     description: "npm credentials, most useful for private repositories"
     required: true
 
+  skip-test:
+    description: "Set to true if the building for deploy"
+    required: false
+    default: false
+
 runs:
   using: "composite"
   steps:
@@ -35,3 +40,4 @@ runs:
 
     - run: npm run ci-test
       shell: bash
+      if: ${{ inputs.skip-test != 'true' }}
