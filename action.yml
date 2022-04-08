@@ -33,5 +33,5 @@ runs:
     - run: npm run build
       shell: bash
 
-    - run: npm ci-test
+    - run: npm run ci-test
       shell: bash
