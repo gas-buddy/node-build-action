@@ -20,14 +20,18 @@ runs:
         node-version: ${{ inputs.node-version }}
 
     - name: npm install
+      shell: bash
       run: |
         npm config set '//registry.npmjs.org/:_authToken' "${NPM_TOKEN}"
         npm install
       env:
-        NPM_TOKEN: ${{secrets.npm_token}}
+        NPM_TOKEN: ${{inputs.npm-token}}
 
     - run: npm run lint
+      shell: bash
 
     - run: npm run build
+      shell: bash
 
     - run: npm ci-test
+      shell: bash
