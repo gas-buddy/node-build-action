@@ -16,6 +16,11 @@ inputs:
     required: false
     default: false
 
+  skip-lint:
+    description: "Set to true if lint is not required/supported/needed"
+    required: false
+    default: false
+
 runs:
   using: "composite"
   steps:
@@ -34,6 +39,7 @@ runs:
 
     - run: npm run lint
       shell: bash
+      if: ${{ inputs.skip-lint != 'true' }}
 
     - run: npm run build
       shell: bash
