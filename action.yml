@@ -11,8 +11,13 @@ inputs:
     description: "npm credentials, most useful for private repositories"
     required: true
 
+  skip-db-setup:
+    description: "Set to false if db setup is required"
+    required: false
+    default: true
+
   skip-test:
-    description: "Set to true if the building for deploy"
+    description: "Set to true if building for deploy"
     required: false
     default: false
 
@@ -36,6 +41,15 @@ runs:
         npm install
       env:
         NPM_TOKEN: ${{inputs.npm-token}}
+
+    - name: Set up db
+      shell: bash
+      run: |
+
+        echo "Creating application database ..."
+        npm run db:ci
+        npm run db:dev
+      if: ${{ inputs.skip-db-setup != 'true' }}
 
     - run: npm run lint
       shell: bash
