@@ -30,9 +30,15 @@ runs:
   using: "composite"
   steps:
     - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
+        cache: 'npm'
+
+    - name: Set the BARE_SERVICE_NAME environment variable
+      shell: bash
+      run: |
+        echo BARE_SERVICE_NAME=$(node -p -e "require('./package.json').name.replace(/^@gasbuddy\//,'')") >> $GITHUB_ENV
 
     - name: npm install
       shell: bash
@@ -45,7 +51,6 @@ runs:
     - name: Set up db
       shell: bash
       run: |
-
         echo "Creating application database ..."
         npm run db:ci
         npm run db:dev
