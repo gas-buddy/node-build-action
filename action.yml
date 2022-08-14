@@ -39,6 +39,7 @@ runs:
       shell: bash
       run: |
         echo BARE_SERVICE_NAME=$(node -p -e "require('./package.json').name.replace(/^@gasbuddy\//,'')") >> $GITHUB_ENV
+        echo CAMELCASE_SERVICE_NAME=$(node -p -e "require('./package.json').name.replace(/^@gasbuddy\//,'').replace(/(.)([^-|$]*)[-]*/g, (_,l,w) => l.toUpperCase() + w.toLowerCase())") >> $GITHUB_ENV
 
     - name: npm install
       shell: bash
