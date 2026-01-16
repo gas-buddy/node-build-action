@@ -1,5 +1,5 @@
-name: "Build and Publish to ECR"
-description: "Builds and Pushes built artifacts to ECT"
+name: "Lint, Build & Test"
+description: "Builds and tests the source code"
 
 inputs:
   node-version:
@@ -30,10 +30,15 @@ runs:
   using: "composite"
   steps:
     - name: Use Node.js ${{ inputs.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ inputs.node-version }}
         cache: 'npm'
+
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10' # Python 3.10 supports the 'rU' mode
 
     - name: Set the BARE_SERVICE_NAME environment variable
       shell: bash
